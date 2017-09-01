@@ -1,6 +1,7 @@
 # Coherence-Based Source Counter
 *Counts the number of speech sources during a meeting using two microphone nodes*
 
+[![DOI](https://img.shields.io/badge/DOI-10.5281/zenodo.879280-blue.svg?style=flat-square)](https://doi.org/10.5281/zenodo.879280)
 [![GitHub release](https://img.shields.io/github/release/JacobD10/CoherenceBasedSourceCounter/all.svg?style=flat-square)](https://github.com/JacobD10/CoherenceBasedSourceCounter/releases)
 [![GitHub commits](https://img.shields.io/github/commits-since/JacobD10/CoherenceBasedSourceCounter/1.0.0.svg?style=flat-square)](https://github.com/JacobD10/CoherenceBasedSourceCounter/commits/master)
 [![Hit Count](https://hitt.herokuapp.com/JacobD10/CoherenceBasedSourceCounter.svg?style=flat-square)](https://github.com/JacobD10/CoherenceBasedSourceCounter)
