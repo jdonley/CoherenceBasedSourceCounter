@@ -20,6 +20,7 @@ SynthParams.SNR = 40;                          % AWGN at <SNR>dB
 SynthParams.ReverbTime = 0.2;                  % seconds
 SynthParams.RIRlength = 1.0;                   % seconds
 SynthParams.ForceNodeLoc = Tloc;               % Forces node location (comment out for randomised location)
+SynthParams.Verbose = true;                    % Verbose output to command window (true or false)
 
 % Set analysis parameters
 AnalysisParams.Nfft = 256;                     % samples

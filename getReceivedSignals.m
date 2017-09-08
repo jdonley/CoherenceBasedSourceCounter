@@ -24,13 +24,22 @@ function [MicSigs, Fs, SrcLocs, NodeLocs] = ...
 %   IntraNodeDist - Distance between microphones of a node in metres
 % 	  SynthParams - The structure of synthesis parameters:
 %       |-> .SpeechDir    - Directory to read speech samples from.
+%       |                   (default: 'Speech_Files\')
 %       |-> .c            - Sound velocity (metres/ssecond).
+%       |                   (default: 343)
 %       |-> .res          - Resolution in samples per metre.
+%       |                   (default: 100)
 %       |-> .SNR          - Signal to noise ration (for awgn function).
+%       |                   (default: 40)
 %       |-> .ReverbTime   - Reverberation time in seconds.
+%       |                   (default: 0.2)
 %       |-> .RIRlength    - RIR length in seconds.
-%       '-> .ForceNodeLoc - Forces node location (do not define for 
-%                           randomised location).
+%       |                   (default: 1.0)
+%       |-> .ForceNodeLoc - Forces node location (do not define for 
+%       |                   randomised location).
+%       |                   (default: <randomised location>)
+%       '-> .Verbose      - False suppresses output to command window.
+%                           (true or false, default: true)
 %
 % Outputs:
 % 	 MicSigs - The synthesised micrphone signals
@@ -55,6 +64,11 @@ function [MicSigs, Fs, SrcLocs, NodeLocs] = ...
 % Reference:
 %   This function makes use of the Room Impulse Response Generator by
 %   Emanuel A.P. Habets: https://www.audiolabs-erlangen.de/fau/professor/habets/software/rir-generator 
+%   Note: When SynthParams.Verbose is false the copyright notice is not 
+%   printed to the command window. The copyright notice for the included 
+%   rir_generator C++ code is:
+%  Room Impulse Response Generator (Version 2.1.20141124) by Emanuel Habets
+%  Copyright (C) 2003-2014 E.A.P. Habets, The Netherlands.
 %
 % See also: cbsc, rir_generator, getAllFiles
 
@@ -62,21 +76,18 @@ function [MicSigs, Fs, SrcLocs, NodeLocs] = ...
 % University of Wollongong
 % Email: jrd089@uowmail.edu.au
 % Copyright: Jacob Donley 2017
-% Date: 21 April 2017
+% Date: 8 September 2017
+% Version: 1.1 (8 September 2017)
 % Version: 1.0 (1 September 2017)
 % Version: 0.1 (21 April 2017)
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 if nargin < 9
-    SynthParams.SpeechDir = 'Speech_Files\';       % Directory to read speech samples from
-    SynthParams.c = 343;                           % Sound velocity (m/s)
-    SynthParams.res = 100;                         % Samples per metre
-    SynthParams.SNR = 40;                          % AWGN at <SNR>dB
-    SynthParams.ReverbTime = 0.2;                  % seconds
-    SynthParams.RIRlength = 1.0;                   % seconds
-    SynthParams.ForceNodeLoc = Tloc;               % Forces node location (comment out for randomised location)
+    SynthParams = struct;
 end
+
+SynthParams = setSPDefaults(SynthParams);
 
 %% First run attempt rir_generator compilation from current directory
 compileRIRGenerator;
@@ -172,10 +183,21 @@ for node=1:Nnodes
             SynthParams.RIRlength * Fs};
         
         for mic = 1:Nmics
-            MicSigs(:,mic,node) = MicSigs(:,mic,node) ...
-                + fconv( ...
-                SrcSigs(:,src), ...
-                rir_generator(rirARGS{1:2}, rirARGS{3}{mic}, rirARGS{4:end}) );
+            if SynthParams.Verbose
+                MicSigs(:,mic,node) = MicSigs(:,mic,node) ...
+                    + fconv( ...
+                    SrcSigs(:,src), ...
+                    rir_generator( ...
+                    rirARGS{1:2}, rirARGS{3}{mic}, rirARGS{4:end}) );
+            else
+                evalc( [...
+                    'MicSigs(:,mic,node) = MicSigs(:,mic,node)' ...
+                    '+ fconv(' ...
+                    'SrcSigs(:,src),' ...
+                    'rir_generator(' ...
+                    'rirARGS{1:2}, rirARGS{3}{mic}, rirARGS{4:end}) )' ...
+                    ] );
+            end
         end
         
     end
@@ -189,6 +211,32 @@ end
 
 
 
+end
+
+%--------------------------------------------------------------------------
+
+function SP = setSPDefaults(SP) % Set the default Synthesis Parameters (SP) 
+if ~isfield(SP,'SpeechDir')
+    SP.SpeechDir = 'Speech_Files\'; % Directory to read speech samples from
+end
+if ~isfield(SP,'c')
+    SP.c = 343;                     % Sound velocity (m/s)
+end
+if ~isfield(SP,'res')
+    SP.res = 100;                   % Samples per metre
+end
+if ~isfield(SP,'SNR')
+    SP.SNR = 40;                    % AWGN at <SNR>dB
+end
+if ~isfield(SP,'ReverbTime')
+    SP.ReverbTime = 0.2;            % seconds
+end
+if ~isfield(SP,'RIRlength')
+    SP.RIRlength = 1.0;             % seconds
+end
+if ~isfield(SP,'Verbose')
+    SP.Verbose = true;              % true or false
+end
 end
 
 %--------------------------------------------------------------------------
