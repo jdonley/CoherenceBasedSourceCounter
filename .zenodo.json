@@ -1,0 +1,41 @@
+{
+    "conference_title": "IEEE Asia-Pacific Signal & Information Processing Association Annual Summit and Conference", 
+    "description": "<p>Counts the number of speech sources during a meeting using two microphone nodes.</p>", 
+    "license": "GPL-3.0", 
+    "title": "Coherence Based Source Counter", 
+    "upload_type": "software", 
+    "conference_url": "http://apsipa2017.org/", 
+    "conference_dates": "12-15th December 2017", 
+    "conference_acronym": "APSIPA ASC", 
+    "publication_date": "2017-12-15", 
+    "creators": [
+        {
+            "affiliation": "University of Wollongong", 
+            "name": "Pasha, Shahab"
+        }, 
+        {
+            "affiliation": "University of Wollongong", 
+            "name": "Donley, Jacob",
+			"orcid": "0000-0002-8401-798X"
+        }, 
+        {
+            "affiliation": "University of Wollongong", 
+            "name": "Ritz, Christian",
+			"orcid": "0000-0002-3768-7569"
+        }
+    ], 
+    "access_right": "open", 
+    "conference_place": "Kuala Lumpur, Malaysia",
+	"related_identifiers": [
+        {
+            "scheme": "url", 
+            "identifier": "https://github.com/JacobD10/CoherenceBasedSourceCounter", 
+            "relation": "isSupplementTo"
+        }, 
+        {
+            "scheme": "doi", 
+            "identifier": "10.5281/zenodo.879279", 
+            "relation": "isPartOf"
+        }
+    ]
+}

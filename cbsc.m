@@ -1,5 +1,5 @@
 function EstimatedSourceCount = cbsc( MicSigs, AnalysisParams )
-%CBSC Estimate the number of sources from two microphone signals
+%CBSC Estimate the number of talkers from two microphone signals
 %
 % Syntax:	EstimatedSourceCount = ...
 %                          cbsc( MicSigs, AnalysisParams )
@@ -19,7 +19,7 @@ function EstimatedSourceCount = cbsc( MicSigs, AnalysisParams )
 %                          initial cluster centroid positions.
 %
 % Outputs:
-% 	EstimatedSourceCount - The estimated number of sources.
+% 	EstimatedSourceCount - The estimated number of speech sources.
 %
 % Example:
 % 	x_2ch = [];               % Microphone signals
